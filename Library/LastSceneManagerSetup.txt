@@ -1,0 +1,4 @@
+sceneSetups:
+- path: Assets/_ARCom Furniture/Scenes/1_AR Furniture Trilib (Category).unity
+  isLoaded: 1
+  isActive: 1

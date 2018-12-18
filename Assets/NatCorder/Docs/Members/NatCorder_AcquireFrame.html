@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang='en-US'>
+    <head>
+        <!--Document title is project name-->
+        <title>NatCorder Scripting Reference on Calligraphy</title>
+        <!--Extra information-->
+        <meta name='description' content='NatCorder API documentation on Calligraphy'> <!--Populate from Calligraphy-->
+        <meta name='keywords' content='NatCorder, Calligraphy, Unity'> <!--Populate from Calligraphy-->
+        <meta name='author' content='Calligraphy by Yusuf Olokoba'>
+        <meta charset='UTF-8'>
+        <!--Style sheet-->
+        <link rel='stylesheet' href='../Styles/memberstyles.css'>
+    </head>
+	
+	<body>
+        <h1 class='blockname'><a href='../Groups/NatCorder.html'>NatCorder</a>.AcquireFrame</h1>
+        <p1 class='faintname'>public static <a href='../Groups/Frame.html'>Frame</a> AcquireFrame ()<b>;</b></p1>
+        <br>
+        <br>
+        <h2>Description</h2>
+        <p1>Acquire a frame for encoding. <br><br>
+            
+            The frame returned contains a RenderTexture and a corresponding timestamp. 
+            The client is expected to call Graphics.Blit on the frame and optionally set the encoding 
+            timestamp before committing the frame.<br><br>
+
+            You <b>absolutely must</b> commit all frames 
+            that you acquire, else there will be a resource leak. It is also recommended to keep acquired 
+            frames for as little time as possible (so acquire a frame when you need it, as opposed to 
+            holding on to it for a long time before committing).</p1>
+        <br>
+        <br>
+        
+        <!--Code example-->
+        <!--Must not be indented-->
+        <!--There must be no space between the text and the pre tags-->
+
+<code>
+<pre>public class RecordCamera : MonoBehaviour {
+
+    WebCamTexture cameraTexture;
+       
+    IEnumerator Start () {
+        <font color='green'>// Start camera</font>
+        cameraTexture = new WebCamTexture();
+        cameraTexture.Play();
+        <font color='green'>// Start recording</font>
+        NatCorder.StartRecording(Configuration.Default, OnVideo);
+        <font color='green'>// Wait a while</font>
+        yield return new WaitForSeconds(10f);
+        <font color='green'>// Stop recording // The `OnVideo` callback will be invoked with the path to the recorded video</font>
+        NatCorder.StopRecording();
+    }
+    
+    void Update () {
+        if (NatCorder.IsRecording && cameraTexture.didUpdateThisFrame) {
+            <font color='green'>// Acquire an encoder frame from NatCorder</font>
+            var frame = NatCorder.AcquireFrame();
+            <font color='green'>// Blit the current camera preview frame to the encoder frame</font>
+            Graphics.Blit(cameraTexture, frame);
+            <font color='green'>// Commit the frame to NatCorder for encoding</font>
+            NatCorder.CommitFrame(frame);
+        }
+    }
+    
+    void OnVideo (string path) {
+        <font color='green'>// Do stuff with video</font>
+        ...
+    }
+}</pre>
+</code>
+<br>
+        
+        
+        <!--See Also-->
+        
+        <p>See Also: 
+        <a href='../Groups/Frame.html'>Frame</a>
+        .</p>
+        
+        
+        <!--Copyright tag-->
+        <br>
+        <hr>
+        <p1 class='copyright'><small>Copyright (c) Yusuf Olokoba 2016</small></p1>
+        
+	</body>
+</html>        
+        

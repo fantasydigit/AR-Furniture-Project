@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang='en-US'>
+    <head>
+        <!--Document title is project name-->
+        <title>NatCorder Scripting Reference on Calligraphy</title>
+        <!--Extra information-->
+        <meta name='description' content='NatCorder API documentation on Calligraphy'> <!--Populate from Calligraphy-->
+        <meta name='keywords' content='NatCorder, Calligraphy, Unity'> <!--Populate from Calligraphy-->
+        <meta name='author' content='Calligraphy by Yusuf Olokoba'>
+        <meta charset='UTF-8'>
+        <!--Style sheet-->
+        <link rel='stylesheet' href='../Styles/memberstyles.css'>
+    </head>
+	
+	<body>
+        <h1 class='blockname'><a href='../Groups/NatCorder.html'>NatCorder</a>.StartRecording</h1>
+        <p1 class='faintname'>public static void StartRecording (<a href='../Groups/Configuration.html'>Configuration</a> configuration, <a href='../Groups/VideoCallback.html'>VideoCallback</a> videoCallback, IAudioSource audioSource)<b>;</b></p1>
+        <br>
+        <br>
+        <h2>Description</h2>
+        <p1>Start recording a video.</p1>
+        <br>
+        <br>
+        
+        <!--Code example-->
+        <!--Must not be indented-->
+        <!--There must be no space between the text and the pre tags-->
+
+<code>
+<pre>public class RecordCamera : MonoBehaviour {
+
+    WebCamTexture cameraTexture;
+       
+    IEnumerator Start () {
+        <font color='green'>// Start camera</font>
+        cameraTexture = new WebCamTexture();
+        cameraTexture.Play();
+        <font color='green'>// Start recording</font>
+        NatCorder.StartRecording(Configuration.Default, OnVideo);
+        <font color='green'>// Wait a while</font>
+        yield return new WaitForSeconds(10f);
+        <font color='green'>// Stop recording // The `OnVideo` callback will be invoked with the path to the recorded video</font>
+        NatCorder.StopRecording();
+    }
+    
+    void Update () {
+        if (NatCorder.IsRecording && cameraTexture.didUpdateThisFrame) {
+            <font color='green'>// Acquire an encoder frame from NatCorder</font>
+            var frame = NatCorder.AcquireFrame();
+            <font color='green'>// Blit the current camera preview frame to the encoder frame</font>
+            Graphics.Blit(cameraTexture, frame);
+            <font color='green'>// Commit the frame to NatCorder for encoding</font>
+            NatCorder.CommitFrame(frame);
+        }
+    }
+    
+    void OnVideo (string path) {
+        <font color='green'>// Do stuff with video</font>
+        ...
+    }
+}</pre>
+</code>
+<br>
+        
+        
+        <!--See Also-->
+        
+        <p>See Also: 
+        <a href='../Groups/Configuration.html'>Configuration</a>
+        , 
+        <a href='../Groups/VideoCallback.html'>VideoCallback</a>
+        .</p>
+        
+        
+        <!--Copyright tag-->
+        <br>
+        <hr>
+        <p1 class='copyright'><small>Copyright (c) Yusuf Olokoba 2016</small></p1>
+        
+	</body>
+</html>        
+        

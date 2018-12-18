@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang='en-US'>
+    <head>
+        <!--Document title is project name-->
+        <title>NatCorder Scripting Reference on Calligraphy</title>
+        <!--Extra information-->
+        <meta name='description' content='NatCorder API documentation on Calligraphy'> <!--Populate from Calligraphy-->
+        <meta name='keywords' content='NatCorder, Calligraphy, Unity'> <!--Populate from Calligraphy-->
+        <meta name='author' content='Calligraphy by Yusuf Olokoba'>
+        <meta charset='UTF-8'>
+        <!--Style sheet-->
+        <link rel='stylesheet' href='../Styles/memberstyles.css'>
+    </head>
+	
+	<body>
+        <h1 class='blockname'><a href='../Groups/NatCorder.html'>NatCorder</a>.CommitSamples</h1>
+        <p1 class='faintname'>public static void CommitSamples (float[] sampleBuffer, long timestamp)<b>;</b></p1>
+        <br>
+        <br>
+        <h2>Description</h2>
+        <p1>Commit an audio sample buffer for encoding. <br><br>
+            
+            The sample buffer is expected to contain raw PCM sample data, interleaved by channel. 
+            Each sample is expected to be a float in the range [-1.0f, 1.0f]. <br><br>
+
+            This function is expected to be invoked by implementations of <font color='gray'>IAudioSource</font>.
+            The audio source provides NatCorder information about the audio sample rate and channel count.</p1>
+        <br>
+        <br>
+        
+        <!--Code example-->
+        <!--Must not be indented-->
+        <!--There must be no space between the text and the pre tags-->
+
+<code>
+<pre>private void OnAudioFilterRead (float[] data, int channels) { <font color='green'>// Invoked by Unity/MonoBehaviour</font>
+    <font color='green'>// Send to NatCorder for encoding</font>
+    NatCorder.CommitSamples(data, (long)(AudioSettings.dspTime * 1e+9f));
+}</pre>
+</code>
+<br>
+        
+        
+        <!--See Also-->
+        
+        
+        <!--Copyright tag-->
+        <br>
+        <hr>
+        <p1 class='copyright'><small>Copyright (c) Yusuf Olokoba 2016</small></p1>
+        
+	</body>
+</html>        
+        
